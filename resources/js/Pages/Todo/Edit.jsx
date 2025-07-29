@@ -1,91 +1,94 @@
 import { Label } from "@/Components/ui/label";
 import { Input } from "@/Components/ui/input";
-import { Calendar } from "@/Components/ui/calendar";
 import { useState } from "react";
-import { Day, Month, Months, Week, Weekday } from "react-day-picker";
-import { yearsToDays } from "date-fns";
+import { Calendar } from "@/Components/ui/calendar";
 import { Button } from "@/Components/ui/button";
 import { router } from "@inertiajs/react";
 
-export default function Create() {
+export default function Edit({ data }) {
     const [values, setValues] = useState({
-        kegiatan: "",
-        tanggal: "",
-        jam: "",
+        kegiatan: data.kegiatan || "",
+        tanggal: data.tanggal || "",
+        jam: data.jam || "",
     });
 
     function handleChange(e) {
-        const key = e.target.name;
-        const value = e.target.value;
-        setValues((values) => ({
+        setValues({
             ...values,
-            [key]: value,
-        }));
+            [e.target.name]: e.target.value,
+        });
     }
 
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(
+        data.tanggal ? new Date(data.tanggal) : null
+    );
     const [showCalendar, setShowCalendar] = useState(false);
+
+    function formatTanggal(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    }
 
     function handleSubmit(e) {
         e.preventDefault();
-        router.post(route("todo.store"), values);
+        router.post(route("todo.update", data.id), values);
     }
 
     return (
         <>
             <div className="flex flex-col items-center justify-center h-screen">
-                <div className="grid grid-span-4 bg-black bg-opacity-0 max-w-5xl w-full p-5">
+                <div className="max-w-5xl w-full grid grid-span-4 p-10  rounded-sm ">
+                    <div className="flex items-center justify-center text-xl font-bold">
+                        Edit Todo
+                    </div>
                     <form onSubmit={handleSubmit}>
-                        <div className="flex items-center justify-center text-xl font-bold">
-                            Tambah Todo
-                        </div>
-                        <div className="my-2">
+                        <div className="my-2 space-y-2">
                             <Label>Kegiatan</Label>
                             <Input
                                 type="text"
                                 name="kegiatan"
+                                value={values.kegiatan}
                                 onChange={handleChange}
-                                className="mt-2"
-                            ></Input>
+                            />
                         </div>
-                        <div className="my-2">
+                        <div className="my-2 space-y-2">
                             <Label>Tanggal</Label>
                             <Input
                                 type="text"
+                                className="cursor-pointer"
                                 name="tanggal"
-                                onChange={handleChange}
                                 value={
-                                    selectedDate
+                                    selectedDate instanceof Date &&
+                                    !isNaN(selectedDate)
                                         ? selectedDate.toLocaleDateString(
                                               "id-ID",
                                               {
                                                   weekday: "long",
-                                                  day: "numeric",
                                                   month: "long",
                                                   year: "numeric",
+                                                  day: "numeric",
                                               }
                                           )
                                         : ""
                                 }
                                 placeholder="Pilih Tanggal"
-                                className="mt-2 cursor-pointer"
+                                onChange={handleChange}
                                 onFocus={() => setShowCalendar(true)}
                             />
 
                             {showCalendar && (
-                                <div className="">
+                                <div>
                                     <Calendar
                                         mode="single"
                                         selected={selectedDate}
                                         onSelect={(date) => {
                                             setSelectedDate(date);
 
-                                            // ✅ Simpan format untuk server (YYYY-MM-DD)
-                                            setValues((values) => ({
-                                                ...values,
-                                                tanggal: date
-                                                    .toISOString()
-                                                    .split("T")[0],
+                                            setValues((prev) => ({
+                                                ...prev,
+                                                tanggal: formatTanggal(date),
                                             }));
 
                                             setShowCalendar(false);
@@ -94,21 +97,19 @@ export default function Create() {
                                 </div>
                             )}
                         </div>
-                        <div className="my-2">
+
+                        <div className="my-2 space-y-2">
                             <Label>Jam</Label>
                             <Input
                                 type="time"
-                                onChange={handleChange}
+                                className=""
                                 name="jam"
-                                placeholder="Pilih Jam"
-                                className="mt-2 cursor-pointer"
+                                value={values.jam}
+                                onChange={handleChange}
                             />
                         </div>
 
-                        <Button
-                            className="my-2 bg-green-100 text-black hover:bg-green-200"
-                            type="submit"
-                        >
+                        <Button className="my-4" type="submit">
                             Submit
                         </Button>
                     </form>

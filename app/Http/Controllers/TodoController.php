@@ -29,4 +29,34 @@ class TodoController extends Controller
 
         return to_route('todo.home');
     }
+
+    public function edit($id)
+    {
+        $data = Todo::findOrFail($id);
+        return Inertia::render('Todo/Edit', ['data' => $data]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $data = Todo::findOrFail($id);
+        $data->update(
+            $request->validate(
+                [
+                    'kegiatan' => ['required'],
+                    'tanggal' => ['required', 'date'],
+                    'jam' => ['required'],
+                ]
+            )
+        );
+
+        return redirect()->route('todo.home');
+    }
+
+    public function delete($id)
+    {
+        $id = Todo::findOrFail($id);
+        $id->delete();
+
+        return redirect()->route('todo.home');
+    }
 }
