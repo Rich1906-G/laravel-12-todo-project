@@ -15,6 +15,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/Components/ui/label";
 import { IoIosCreate, IoIosTrash } from "react-icons/io";
 import { FiEdit } from "react-icons/fi";
+import { Card, CardContent, CardHeader } from "@/Components/ui/card";
 
 export default function Home({ data }) {
     const [checked, setChecked] = useState({});
@@ -38,7 +39,7 @@ export default function Home({ data }) {
         <>
             {/* Wrapper Table */}
             <div className="flex justify-center">
-                <div className="w-full max-w-5xl">
+                <div className="w-full max-w-7xl">
                     {/* Tombol Add Todo */}
                     <div className="flex items-center justify-end my-5 space-x-4">
                         <Button
@@ -72,13 +73,16 @@ export default function Home({ data }) {
                                     Jam
                                 </TableHead>
                                 <TableHead className="text-center py-3">
+                                    Foto Kegiatan
+                                </TableHead>
+                                <TableHead className="text-center py-3">
                                     Aksi
                                 </TableHead>
                             </TableRow>
                         </TableHeader>
 
                         {/* Table Body */}
-                        <TableBody>
+                        <TableBody className="bg-cyan-300">
                             {data.length > 0 ? (
                                 data.map((todo, index) => {
                                     const formattedDate = new Date(
@@ -93,38 +97,70 @@ export default function Home({ data }) {
                                     return (
                                         <TableRow
                                             key={index}
-                                            className="hover:bg-gray-50 transition"
+                                            className="bg-gray-100 hover:bg-gray-50 transition"
                                         >
-                                            <TableCell className="text-center">
-                                                <Checkbox
-                                                    checked={
-                                                        checked[todo.id] ||
-                                                        false
+                                            <TableCell>
+                                                <Label
+                                                    onChange={
+                                                        handleCheckboxChange
                                                     }
-                                                    onCheckedChange={(value) =>
-                                                        handleCheckboxChange(
-                                                            todo.id,
+                                                    className="flex items-center justify-center"
+                                                >
+                                                    <Checkbox
+                                                        checked={
+                                                            checked[todo.id] ||
+                                                            false
+                                                        }
+                                                        onCheckedChange={(
                                                             value
-                                                        )
-                                                    }
-                                                />
-                                                <span className="mx-2">
-                                                    {checked[todo.id]
-                                                        ? "Selesai"
-                                                        : "Belum Selesai"}
-                                                </span>
+                                                        ) =>
+                                                            handleCheckboxChange(
+                                                                todo.id,
+                                                                value
+                                                            )
+                                                        }
+                                                    />
+                                                    <span className="mx-2">
+                                                        {checked[todo.id]
+                                                            ? "Selesai"
+                                                            : "Belum Selesai"}
+                                                    </span>
+                                                </Label>
                                             </TableCell>
-                                            <TableCell className="text-center">
-                                                {todo.kegiatan}
+                                            <TableCell>
+                                                <Label className="flex items-center justify-center">
+                                                    {todo.kegiatan}
+                                                </Label>
                                             </TableCell>
-                                            <TableCell className="text-center">
-                                                {formattedDate}
+                                            <TableCell>
+                                                <Label className="flex items-center justify-center">
+                                                    {formattedDate}
+                                                </Label>
                                             </TableCell>
-                                            <TableCell className="text-center">
-                                                {todo.jam}
+                                            <TableCell>
+                                                <Label className="flex items-center justify-center">
+                                                    {todo.jam}
+                                                </Label>
                                             </TableCell>
-                                            <TableCell className="flex items-center justify-center">
-                                                <div className="grid grid-span-2 space-y-2">
+                                            <TableCell>
+                                                {todo.foto ? (
+                                                    <Card className="flex flex-col items-center justify-center">
+                                                        <CardContent className="bg-yellow-100 p-0 m-4">
+                                                            <img
+                                                                src={`/storage/${todo.foto}`}
+                                                                alt="Foto Todo"
+                                                                className="w-48 h-24 object-cover rounded-md flex items-center justify-center"
+                                                            />
+                                                        </CardContent>
+                                                    </Card>
+                                                ) : (
+                                                    <span className="text-gray-400">
+                                                        Tidak ada foto
+                                                    </span>
+                                                )}
+                                            </TableCell>
+                                            <TableCell>
+                                                <div className="grid grid-span-2 space-y-2 items-center justify-center">
                                                     <Button
                                                         className="bg-yellow-500 text-white hover:bg-yellow-600 "
                                                         onClick={() =>
@@ -159,7 +195,7 @@ export default function Home({ data }) {
                             ) : (
                                 <TableRow>
                                     <TableCell
-                                        colSpan={4}
+                                        colSpan={6}
                                         className="text-center py-4 text-gray-500"
                                     >
                                         Tidak ada kegiatan untuk hari ini.

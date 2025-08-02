@@ -12,6 +12,7 @@ export default function Create() {
         kegiatan: "",
         tanggal: "",
         jam: "",
+        foto: null,
     });
 
     function handleChange(e) {
@@ -28,14 +29,14 @@ export default function Create() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        router.post(route("todo.store"), values);
+        router.post(route("todo.store"), values, { forceFormData: true });
     }
 
     return (
         <>
             <div className="flex flex-col items-center justify-center h-screen">
                 <div className="grid grid-span-4 bg-black bg-opacity-0 max-w-5xl w-full p-5">
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} encType="multipart/form-data">
                         <div className="flex items-center justify-center text-xl font-bold">
                             Tambah Todo
                         </div>
@@ -104,13 +105,37 @@ export default function Create() {
                                 className="mt-2 cursor-pointer"
                             />
                         </div>
+                        <div className="my-2">
+                            <Label>Foto</Label>
+                            <Input
+                                type="file"
+                                onChange={(e) =>
+                                    setValues((prev) => ({
+                                        ...prev,
+                                        foto: e.target.files[0],
+                                    }))
+                                }
+                                accept="image/*"
+                                className="mt-2 cursor-pointer"
+                            />
+                        </div>
 
-                        <Button
-                            className="my-2 bg-green-100 text-black hover:bg-green-200"
-                            type="submit"
-                        >
-                            Submit
-                        </Button>
+                        <div className="flex items-center justify-end space-x-4 my-5">
+                            <Button
+                                className="bg-green-300 text-black hover:bg-green-400"
+                                type="submit"
+                            >
+                                Submit
+                            </Button>
+
+                            <Button
+                                variant="destructive"
+                                type="button"
+                                onClick={() => router.visit(route("todo.home"))}
+                            >
+                                Back
+                            </Button>
+                        </div>
                     </form>
                 </div>
             </div>
