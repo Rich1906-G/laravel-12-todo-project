@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/test', [HomeController::class, 'testing']);
 
-Route::get('/home', [HomeController::class, 'index'])->name('index');
+Route::get('/index', [HomeController::class, 'index'])->name('index');
 
 Route::get('/todo', [TodoController::class, 'index'])->name('todo.home');
 Route::get('/todo-create', [TodoController::class, 'create'])->name('todo.create');
@@ -36,5 +36,7 @@ Route::post('/todo-store', [TodoController::class, 'store'])->name('todo.store')
 Route::get('/todo-edit/{id}', [TodoController::class, 'edit'])->name('todo.edit');
 Route::post('/todo-update/{id}', [TodoController::class, 'update'])->name('todo.update');
 Route::post('/todo-delete/{id}', [TodoController::class, 'delete'])->name('todo.delete');
+
+Route::get('/home', [HomeController::class, 'home'])->name('home');
 
 require __DIR__ . '/auth.php';
