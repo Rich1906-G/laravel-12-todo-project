@@ -78,6 +78,7 @@ class TodoController extends Controller
     public function delete($id)
     {
         $id = Todo::findOrFail($id);
+        
         $id->delete();
 
         return redirect()->route('todo.home');

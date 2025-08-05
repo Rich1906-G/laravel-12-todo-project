@@ -12,15 +12,7 @@ import {
 import { Link, router } from "@inertiajs/react";
 import { useState } from "react";
 
-export default function Navbar() {
-    const [menu, setMenu] = useState([
-        { id: 0, title: "BERITA", link: "/" },
-        { id: 1, title: "OLAHRAGA", link: "/" },
-        { id: 2, title: "GAYA HIDUP", link: "/" },
-        { id: 3, title: "EKONOMI", link: "/" },
-        { id: 4, title: "HUKUM", link: "/" },
-        { id: 5, title: "BERITA LAIN", link: "/" },
-    ]);
+export default function Navbar({ kategori }) {
     return (
         <>
             <div className="flex items-center justify-between bg-blue-600">
@@ -32,17 +24,17 @@ export default function Navbar() {
                 </div>
                 <NavigationMenu>
                     <NavigationMenuList className="space-x-4 mx-4">
-                        {menu.map((item) => (
+                        {kategori.map((item) => (
                             <NavigationMenuItem key={item.id}>
                                 <NavigationMenuLink
                                     asChild
                                     className="text-white mx-2"
                                 >
                                     <Link
-                                        href={item.link}
+                                        href="/"
                                         className="inline-block hover:scale-95 transition-transform duration-200"
                                     >
-                                        {item.title}
+                                        {item.nama_kategori}
                                     </Link>
                                 </NavigationMenuLink>
                             </NavigationMenuItem>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TodoController;
 use Illuminate\Foundation\Application;
@@ -17,7 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard/Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -38,5 +39,9 @@ Route::post('/todo-update/{id}', [TodoController::class, 'update'])->name('todo.
 Route::post('/todo-delete/{id}', [TodoController::class, 'delete'])->name('todo.delete');
 
 Route::get('/home', [HomeController::class, 'home'])->name('home');
+
+Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori');
+Route::post('/kategori-store', [KategoriController::class, 'store'])->name('kategori.store');
+Route::post('/kategori-delete/{id}', [KategoriController::class, 'delete'])->name('kategori.delete');
 
 require __DIR__ . '/auth.php';
