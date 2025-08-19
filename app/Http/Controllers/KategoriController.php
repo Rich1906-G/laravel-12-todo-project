@@ -26,6 +26,15 @@ class KategoriController extends Controller
         return to_route('kategori')->with('success', 'Kategori Berhasil Ditambahkan');
     }
 
+    public function update(Request $request)
+    {
+        $kategori = Kategori::findOrFail($request->id);
+        $kategori->update($request->validate([
+            'nama_kategori' => 'required',
+        ]));
+        return to_route('kategori')->with('success', 'Kategori Berhasil Diupdate');
+    }
+
     public function delete($id)
     {
         $id = Kategori::findOrFail($id);

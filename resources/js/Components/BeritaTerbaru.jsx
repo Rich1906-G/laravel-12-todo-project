@@ -29,7 +29,7 @@ export default function BeritaTerbaru() {
     ];
 
     return (
-        <div className="max-w-7xl mx-auto my-8 ">
+        <div className="max-w-lebarLaptop mx-auto my-8 ">
             <div className="flex flex-col md:flex-row items-start md:space-x-5">
                 {/* 📌 BAGIAN BERITA UTAMA */}
                 <div className="w-full md:w-2/3 relative">

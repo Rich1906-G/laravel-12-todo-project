@@ -16,14 +16,27 @@ import { AlertCircleIcon, CheckCircle2Icon, PopcornIcon } from "lucide-react";
 import { Button } from "@/Components/ui/button";
 import { IoIosCreate, IoIosTrash } from "react-icons/io";
 import { FiEdit } from "react-icons/fi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Index({ kategori }) {
-    const props = usePage().props;
-    const flash = props.flash || {};
+    const { flash } = usePage().props;
+    const [message, setMessage] = useState(null);
+
+    useEffect(() => {
+        if (flash.success) {
+            setMessage(flash.success);
+
+            const timer = setTimeout(() => {
+                setMessage(null);
+            }, 3000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [flash.success]);
 
     const [popUpCreate, setPopUpCreate] = useState(null);
     const [values, setValues] = useState({
+        id: null,
         nama_kategori: "",
     });
 
@@ -42,7 +55,30 @@ export default function Index({ kategori }) {
         setPopUpCreate(null);
     }
 
-    const [popUpUpdate, setPopUpUpdate] = useState(null);
+    const [popUpUpdate, setPopUpUpdate] = useState(false);
+
+    function hanldePopUpUpdate(items) {
+        setValues({
+            id: items.id,
+            nama_kategori: items.nama_kategori,
+        });
+        setPopUpUpdate(true);
+    }
+
+    function handleChangeUpdate(e) {
+        const key = e.target.id;
+        setValues((prev) => ({
+            ...prev,
+            [key]: e.target.value,
+        }));
+    }
+
+    function handleSubmitUpdate(e) {
+        e.preventDefault();
+        router.post(route("kategori.update"), values);
+        setPopUpUpdate(false);
+    }
+
     const [popUpDelete, setPopUpDelete] = useState(null);
 
     function handleDelete(id) {
@@ -60,14 +96,28 @@ export default function Index({ kategori }) {
             >
                 <Head title="Kategori" />
 
-                {flash.success && (
-                    <Alert>
-                        <CheckCircle2Icon />
-                        <AlertTitle>
-                            Success! Your changes have been saved
-                        </AlertTitle>
-                        <AlertDescription>{flash.success}</AlertDescription>
-                    </Alert>
+                {/* {flash.success && (
+                    <div className="absolute top-0 right-0 m-6">
+                        <Alert className="space-x-3">
+                            <CheckCircle2Icon />
+                            <AlertTitle>
+                                Success! Your changes have been saved
+                            </AlertTitle>
+                            <AlertDescription>{flash.success}</AlertDescription>
+                        </Alert>
+                    </div>
+                )} */}
+
+                {message && (
+                    <div className="absolute top-0 right-0 m-6 transition-all duration-500 transform">
+                        <Alert className="space-x-3">
+                            <CheckCircle2Icon />
+                            <AlertTitle>
+                                Success! Your changes have been saved
+                            </AlertTitle>
+                            <AlertDescription>{message}</AlertDescription>
+                        </Alert>
+                    </div>
                 )}
 
                 <div className="py-12">
@@ -122,11 +172,8 @@ export default function Index({ kategori }) {
                                                             <Button
                                                                 className="bg-yellow-500 text-white hover:bg-yellow-600 "
                                                                 onClick={() =>
-                                                                    router.visit(
-                                                                        route(
-                                                                            "todo.edit",
-                                                                            todo.id
-                                                                        )
+                                                                    hanldePopUpUpdate(
+                                                                        items
                                                                     )
                                                                 }
                                                             >
@@ -167,7 +214,7 @@ export default function Index({ kategori }) {
                     </div>
                 </div>
 
-                {/* ✅ POPUP DELETE */}
+                {/* ✅ POPUP CREATE */}
                 {popUpCreate && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                         <div className="bg-white p-6 rounded-md shadow-md text-center max-w-2xl w-full mx-auto">
@@ -199,6 +246,48 @@ export default function Index({ kategori }) {
                                     <Button
                                         variant="destructive"
                                         onClick={() => setPopUpCreate(false)}
+                                    >
+                                        Batal
+                                    </Button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                )}
+
+                {/* ✅ POPUP UPDATE */}
+                {popUpUpdate && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                        <div className="bg-white p-6 rounded-md shadow-md text-center max-w-2xl w-full mx-auto">
+                            <h2 className="font-bold text-xl">
+                                Update Data Kategori
+                            </h2>
+                            <form onSubmit={handleSubmitUpdate}>
+                                <div className="space-y-4 my-5">
+                                    <Label
+                                        htmlFor="nama_kategori"
+                                        className="flex text-md"
+                                    >
+                                        Nama Kategori
+                                    </Label>
+                                    <Input
+                                        id="nama_kategori"
+                                        onChange={handleChangeUpdate}
+                                        value={values.nama_kategori}
+                                        placeholder="Nama Kategori"
+                                    />
+                                </div>
+                                <div className="flex space-x-4 text-black">
+                                    <Button
+                                        variant="destructive"
+                                        type="submit"
+                                        className="bg-green-600 hover:bg-green-500"
+                                    >
+                                        Kirim
+                                    </Button>
+                                    <Button
+                                        variant="destructive"
+                                        onClick={() => setPopUpUpdate(false)}
                                     >
                                         Batal
                                     </Button>

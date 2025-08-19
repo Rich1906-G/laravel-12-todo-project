@@ -42,6 +42,7 @@ Route::get('/home', [HomeController::class, 'home'])->name('home');
 
 Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori');
 Route::post('/kategori-store', [KategoriController::class, 'store'])->name('kategori.store');
+Route::post('/kategori-update', [KategoriController::class, 'update'])->name('kategori.update');
 Route::post('/kategori-delete/{id}', [KategoriController::class, 'delete'])->name('kategori.delete');
 
 require __DIR__ . '/auth.php';
