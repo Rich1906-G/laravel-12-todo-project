@@ -2,6 +2,7 @@ import Navbar from "@/Components/Navbar";
 import Header from "@/Components/Header";
 import BeritaTerbaru from "@/Components/BeritaTerbaru";
 import InfoHaji from "@/Components/InfoHaji";
+import BeritaTerkini from "@/Components/BeritaTerkini";
 
 export default function Home({ kategori }) {
     return (
@@ -11,6 +12,8 @@ export default function Home({ kategori }) {
                 <Header />
                 <BeritaTerbaru />
                 <InfoHaji />
+                <BeritaTerkini />
+                
             </div>
         </>
     );

@@ -21,7 +21,7 @@ export default function InfoHaji() {
     const beritaList = Array(10).fill(berita);
 
     return (
-        <div className="bg-green-500 p-10">
+        <div className="bg-green-500 p-5">
             <div className="max-w-lebarLaptop mx-auto">
                 <div className="flex items-center justify-between">
                     <Label className="text-white text-lg font-semibold">

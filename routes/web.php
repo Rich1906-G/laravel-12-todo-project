@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BeritaTerkiniController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\ProfileController;
@@ -44,5 +45,9 @@ Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori');
 Route::post('/kategori-store', [KategoriController::class, 'store'])->name('kategori.store');
 Route::post('/kategori-update', [KategoriController::class, 'update'])->name('kategori.update');
 Route::post('/kategori-delete/{id}', [KategoriController::class, 'delete'])->name('kategori.delete');
+
+// Route Berita Terkini 
+Route::get('/berita-terkini', [BeritaTerkiniController::class, 'home'])->name('beritaTerkini.home');
+
 
 require __DIR__ . '/auth.php';
