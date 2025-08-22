@@ -1,4 +1,5 @@
 import { Label } from "./ui/label";
+import { Link } from "@inertiajs/react";
 
 export default function BeritaVideo() {
     const beritaVideo = {
@@ -13,7 +14,18 @@ export default function BeritaVideo() {
     return (
         <>
             <div className="max-w-lebarLaptop mx-auto">
-                <Label className="font-semibold text-xl">Berita Video</Label>
+                <div className="flex items-center justify-between">
+                    <Label className="font-semibold text-xl">
+                        Berita Video
+                    </Label>
+
+                    <Link
+                        href={route("beritaTerkini.home")}
+                        className="flex items-center pl-3 hover:underline"
+                    >
+                        Lihat Selengkapnya
+                    </Link>
+                </div>
                 <div className="flex flex-row my-4">
                     <div className="w-2/3 flex-auto pr-8">
                         <img

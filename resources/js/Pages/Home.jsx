@@ -4,6 +4,7 @@ import BeritaTerbaru from "@/Components/BeritaTerbaru";
 import InfoHaji from "@/Components/InfoHaji";
 import BeritaTerkini from "@/Components/BeritaTerkini";
 import BeritaVideo from "@/Components/BeritaVideo";
+import BeritaFoto from "@/Components/BeritaFoto";
 
 export default function Home({ kategori }) {
     return (
@@ -15,6 +16,7 @@ export default function Home({ kategori }) {
                 <InfoHaji />
                 <BeritaTerkini />
                 <BeritaVideo />
+                <BeritaFoto />
             </div>
         </>
     );
