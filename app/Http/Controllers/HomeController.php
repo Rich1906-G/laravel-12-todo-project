@@ -26,4 +26,9 @@ class HomeController extends Controller
             'kategori' => $kategori
         ]);
     }
+
+    public function testingSwiper()
+    {
+        return Inertia::render('TestingSwiper');
+    }
 }

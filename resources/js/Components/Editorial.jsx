@@ -56,19 +56,21 @@ export default function Editorial() {
                     {listBeritaEditorial.map((item, index) => (
                         <SwiperSlide key={index}>
                             <Card>
-                                <div className="bg-white rounded-xl shadow p-3">
+                                <div className="bg-white rounded-xl shadow">
                                     <img
                                         src={item.image}
                                         alt={item.title}
                                         className="rounded-lg"
                                     />
-                                    <h3 className="font-semibold mt-2">
-                                        {item.title}
-                                    </h3>
-                                    <p className="text-gray-500 text-sm flex items-center gap-2 mt-1">
-                                        <span>🕒 {item.time}</span>
-                                        <span>📍 {item.source}</span>
-                                    </p>
+                                    <div className="p-3">
+                                        <h3 className="font-semibold mt-2">
+                                            {item.title}
+                                        </h3>
+                                        <p className="text-gray-500 text-sm grid grid-row-2 items-center gap-2 mt-4 mb-2 ">
+                                            <span>🕒 {item.time}</span>
+                                            <span>📍 {item.source}</span>
+                                        </p>
+                                    </div>
                                 </div>
                             </Card>
                         </SwiperSlide>

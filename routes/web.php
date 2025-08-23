@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/test', [HomeController::class, 'testing']);
+Route::get('/test-swiper', [HomeController::class, 'testingSwiper']);
 
 Route::get('/index', [HomeController::class, 'index'])->name('index');
 
